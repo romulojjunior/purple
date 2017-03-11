@@ -6,7 +6,7 @@ enum  class Status {
 }
 
 class TodoItem : SugarRecord() {
-    var todoListId: Int? = null
+    var todoListId: Long? = null
     var title: String? = null
     var description: String? = null
     var status: Status = Status.done
