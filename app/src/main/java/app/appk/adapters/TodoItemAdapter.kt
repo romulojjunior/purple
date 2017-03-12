@@ -28,13 +28,19 @@ class TodoItemAdapter(var todoItems: MutableList<TodoItem>?) : RecyclerView.Adap
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         var titleTextView : TextView? = null
+        var descriptionTextView : TextView? = null
+        var statusTextView : TextView? = null
 
         init {
             titleTextView = super.itemView?.find<TextView>(R.id.adapter_todo_item_TitleTextView)
+            descriptionTextView = super.itemView?.find<TextView>(R.id.adapter_todo_item_DescriptionTextView)
+            statusTextView = super.itemView?.find<TextView>(R.id.adapter_todo_item_StatusTextView)
         }
 
         fun bindView(item: TodoItem?) {
             titleTextView?.text = item?.title
+            descriptionTextView?.text = item?.description
+            statusTextView?.text = item?.status.toString()
         }
     }
 }

@@ -13,8 +13,12 @@ class TodoList : SugarRecord() {
 
     companion object {
 
-        fun findById(id: Long) : TodoList {
+        fun findById(id: Long) : TodoList? {
             return SugarRecord.findById(TodoList::class.java, id)
+        }
+
+        fun findAll(): MutableList<TodoList>? {
+            return SugarRecord.listAll(TodoList::class.java)
         }
     }
 }

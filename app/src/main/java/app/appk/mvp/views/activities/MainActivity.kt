@@ -29,9 +29,9 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override
-    fun loadViewPager(fragments: List<Fragment>) {
+    fun loadViewPager(fragments: List<Fragment>?) {
         var viewPager = find<ViewPager>(R.id.activity_main_ViewPager)
-        viewPager.adapter = FragmentAdapter(supportFragmentManager, fragments)
+        if (fragments != null) viewPager.adapter = FragmentAdapter(supportFragmentManager, fragments)
     }
 
     override
