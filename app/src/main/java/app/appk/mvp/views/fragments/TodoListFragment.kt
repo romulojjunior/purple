@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import android.widget.TextView
 import app.appk.R
 import app.appk.adapters.TodoItemAdapter
 import app.appk.dialogs.TodoItemFormDialog
+import app.appk.dialogs.TodoListFormDialog
 import app.appk.models.TodoItem
 import app.appk.models.TodoList
 import app.appk.mvp.presenters.TodoListFragmentPresenter
@@ -19,6 +21,7 @@ import com.pawegio.kandroid.toast
 class TodoListFragment : Fragment(), TodoListView {
     var todoListPresenter: TodoListPresenter? = null
     var todoList: TodoList? = null
+    var titleTextView: TextView? = null
 
     override
     fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +32,10 @@ class TodoListFragment : Fragment(), TodoListView {
 
     override
     fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_todo_list, container, false)
+        val view =  inflater?.inflate(R.layout.fragment_todo_list, container, false)
+        titleTextView = view?.find<TextView>(R.id.fragment_todo_list_TextView)
+
+        return view
     }
 
     override
@@ -39,6 +45,8 @@ class TodoListFragment : Fragment(), TodoListView {
         val todoListId = arguments!!.getLong(TODO_LIST_ID)
         val callback = { todoList: TodoList? ->
             this.todoList = todoList
+            this.titleTextView?.text = todoList?.title
+
             if (todoList != null) todoListPresenter?.loadUI(todoList)
         }
 
@@ -49,19 +57,29 @@ class TodoListFragment : Fragment(), TodoListView {
     fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        var addMenuItem = menu?.add("New Item")
-        addMenuItem?.setOnMenuItemClickListener { showTodoItemFormDialog(); false }
+        var addMenuTodoItem = menu?.add("New Todo Item")
+        addMenuTodoItem?.setOnMenuItemClickListener { showTodoItemFormDialog(); false }
     }
 
     // From View Interface
 
     override
     fun loadTodoItemsRecyclerView(todoList: TodoList) {
-        var recyclerView = view?.find<RecyclerView>(R.id.fragment_todo_list_RecycleView)
+        val recyclerView = view?.find<RecyclerView>(R.id.fragment_todo_list_RecycleView)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
-        var todoItems: MutableList<TodoItem>? = todoList.todoItems()
+        val todoItems: MutableList<TodoItem>? = todoList.todoItems()
         if (todoItems != null) recyclerView?.adapter = TodoItemAdapter(todoItems)
+    }
+
+    override
+    fun addNewItemToTodoItemsRecyclerView(todoItem: TodoItem) {
+        if (todoItem?.save()!! > 0) {
+            var recyclerView = view?.find<RecyclerView>(R.id.fragment_todo_list_RecycleView)
+            var todoItemAdapter = recyclerView?.adapter as TodoItemAdapter
+            todoItemAdapter.addItem(todoItem)
+            toast(R.string.item_added)
+        }
     }
 
     override
@@ -71,7 +89,8 @@ class TodoListFragment : Fragment(), TodoListView {
             override
             fun onSave(todoItem: TodoItem?): Unit {
                 todoItem?.todoListId = todoList?.id
-                if (todoItem?.save()!! > 0) toast(R.string.save) }
+                addNewItemToTodoItemsRecyclerView(todoItem!!)
+            }
         }
 
         dialog.show(activity.supportFragmentManager, TodoItemFormDialog.TAG)

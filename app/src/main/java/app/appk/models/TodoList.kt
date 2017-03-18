@@ -1,8 +1,9 @@
 package app.appk.models
 
 import com.orm.SugarRecord
+import java.io.Serializable
 
-class TodoList : SugarRecord() {
+class TodoList : SugarRecord(), Serializable {
     var title: String? = null
 
     fun todoItems() : MutableList<TodoItem>? {
