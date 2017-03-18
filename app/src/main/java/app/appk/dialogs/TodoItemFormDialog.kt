@@ -63,7 +63,7 @@ class TodoItemFormDialog : DialogFragment() {
         // TODO: Validate fileds
         todoItem?.title = titleEdiText?.text.toString()
         todoItem?.description = descriptionEditText?.text.toString()
-        todoItem?.status = Status.done
+        todoItem?.status = Status.todo
 
         if (todoItem?.save()!! > 0) {
             callback?.onSave(todoItem)
