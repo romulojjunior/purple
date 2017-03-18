@@ -58,6 +58,7 @@ class TodoListFormDialog : DialogFragment() {
 
         if (todoList?.save()!! > 0) {
             callback?.onSave(todoList)
+            dismiss()
         }
     }
 

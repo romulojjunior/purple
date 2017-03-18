@@ -4,8 +4,11 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import android.view.Menu
+import android.view.MenuInflater
 import app.appk.R
 import app.appk.adapters.FragmentAdapter
+import app.appk.dialogs.TodoListFormDialog
 import app.appk.models.Status
 import app.appk.models.TodoItem
 import app.appk.models.TodoList
@@ -29,6 +32,15 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override
+    fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+
+        val addMenuTodoList = menu?.add("New Todo List")
+        addMenuTodoList?.setOnMenuItemClickListener { showTodoListFormDialog(); false }
+        return false
+    }
+
+    override
     fun onNewTodoListCreated(todoList: TodoList) {
         toast("Reloading TodoLists")
         mainPresenter?.loadUI()
@@ -38,6 +50,24 @@ class MainActivity : AppCompatActivity(), MainView {
     fun loadViewPager(fragments: List<Fragment>?) {
         var viewPager = find<ViewPager>(R.id.activity_main_ViewPager)
         if (fragments != null) viewPager.adapter = FragmentAdapter(supportFragmentManager, fragments)
+    }
+
+    override
+    fun showTodoListFormDialog() {
+        var dialog = TodoListFormDialog.newInstance(null)
+        dialog.callback = object : TodoListFormDialog.Callback {
+            override
+            fun onSave(todoList: TodoList?): Unit {
+                if (todoList != null) {
+                    toast(R.string.save)
+                    onNewTodoListCreated(todoList)
+                } else {
+                    toast(R.string.not_saved)
+                }
+            }
+        }
+
+        dialog.show(supportFragmentManager, TodoListFormDialog.TAG)
     }
 
     override

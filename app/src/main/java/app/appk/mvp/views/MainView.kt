@@ -6,5 +6,6 @@ import app.appk.models.TodoList
 interface MainView {
     fun loadViewPager(fragments: List<Fragment>?)
     fun showMessage(message: String)
+    fun showTodoListFormDialog()
     fun onNewTodoListCreated(todoList: TodoList)
 }

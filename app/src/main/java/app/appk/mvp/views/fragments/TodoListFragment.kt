@@ -60,19 +60,16 @@ class TodoListFragment : Fragment(), TodoListView {
 
         var addMenuTodoItem = menu?.add("New Todo Item")
         addMenuTodoItem?.setOnMenuItemClickListener { showTodoItemFormDialog(); false }
-
-        var addMenuTodoList = menu?.add("New Todo List")
-        addMenuTodoList?.setOnMenuItemClickListener { showTodoListFormDialog(); false }
     }
 
     // From View Interface
 
     override
     fun loadTodoItemsRecyclerView(todoList: TodoList) {
-        var recyclerView = view?.find<RecyclerView>(R.id.fragment_todo_list_RecycleView)
+        val recyclerView = view?.find<RecyclerView>(R.id.fragment_todo_list_RecycleView)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
-        var todoItems: MutableList<TodoItem>? = todoList.todoItems()
+        val todoItems: MutableList<TodoItem>? = todoList.todoItems()
         if (todoItems != null) recyclerView?.adapter = TodoItemAdapter(todoItems)
     }
 
@@ -84,7 +81,6 @@ class TodoListFragment : Fragment(), TodoListView {
             todoItemAdapter.addItem(todoItem)
             toast(R.string.item_added)
         }
-
     }
 
     override
@@ -99,24 +95,6 @@ class TodoListFragment : Fragment(), TodoListView {
         }
 
         dialog.show(activity.supportFragmentManager, TodoItemFormDialog.TAG)
-    }
-
-    override
-    fun showTodoListFormDialog() {
-        var dialog = TodoListFormDialog.newInstance(null)
-        dialog.callback = object : TodoListFormDialog.Callback {
-            override
-            fun onSave(todoList: TodoList?): Unit {
-                if (todoList != null) {
-                    toast(R.string.save)
-                    (activity as MainView).onNewTodoListCreated(todoList)
-                } else {
-                    toast(R.string.not_saved)
-                }
-            }
-        }
-
-        dialog.show(activity.supportFragmentManager, TodoListFormDialog.TAG)
     }
 
     // Statics
