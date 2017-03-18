@@ -8,17 +8,16 @@
         android:text="TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
+        android:id="@+id/fragment_todo_list_TextView"
         android:textAlignment="center"
         style="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#727fe6"
-        android:padding="6dp"
-        />
+        android:padding="6dp" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/fragment_todo_list_RecycleView"
-        android:layout_below="@+id/textView2" />
+        android:layout_below="@+id/fragment_todo_list_TextView" />
 
 </RelativeLayout>

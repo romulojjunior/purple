@@ -29,6 +29,12 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override
+    fun onNewTodoListCreated(todoList: TodoList) {
+        toast("Reloading TodoLists")
+        mainPresenter?.loadUI()
+    }
+
+    override
     fun loadViewPager(fragments: List<Fragment>?) {
         var viewPager = find<ViewPager>(R.id.activity_main_ViewPager)
         if (fragments != null) viewPager.adapter = FragmentAdapter(supportFragmentManager, fragments)

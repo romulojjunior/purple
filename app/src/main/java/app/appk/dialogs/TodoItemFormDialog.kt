@@ -9,6 +9,7 @@ import app.appk.models.TodoItem
 import android.support.v4.app.DialogFragment
 import android.widget.Button
 import app.appk.R
+import app.appk.models.Status
 import com.pawegio.kandroid.find
 
 
@@ -61,11 +62,12 @@ class TodoItemFormDialog : DialogFragment() {
 
         // TODO: Validate fileds
         todoItem?.title = titleEdiText?.text.toString()
-        todoItem?.title = titleEdiText?.text.toString()
-        todoItem?.title = titleEdiText?.text.toString()
+        todoItem?.description = descriptionEditText?.text.toString()
+        todoItem?.status = Status.done
 
         if (todoItem?.save()!! > 0) {
             callback?.onSave(todoItem)
+            dismiss()
         }
     }
 
