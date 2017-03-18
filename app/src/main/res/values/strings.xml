@@ -7,4 +7,10 @@
     <string name="create">Create</string>
     <string name="not_saved">Not saved</string>
     <string name="item_added">Iten added</string>
+    <string name="new_todo_list">New Todo List</string>
+    <string name="remove_todo_list">Remove Todo List</string>
+    <string name="try_again">Try again</string>
+    <string name="removed_todo_list">Removed todo list</string>
+    <string name="new_todo_litem">New Todo Item</string>
+    <string name="remove_this_list">Remove this list</string>
 </resources>

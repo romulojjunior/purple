@@ -10,6 +10,11 @@ class TodoList : SugarRecord(), Serializable {
         return SugarRecord.find(TodoItem::class.java, "todo_list_id = ?", id.toString())
     }
 
+    fun deleteTodoItems() : Boolean {
+        val result =  SugarRecord.deleteAll(TodoItem::class.java, "todo_list_id = ?", id.toString())
+        return  result > 0
+    }
+
     // Statics
 
     companion object {

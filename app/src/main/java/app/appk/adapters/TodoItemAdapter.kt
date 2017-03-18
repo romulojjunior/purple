@@ -27,10 +27,8 @@ class TodoItemAdapter(var todoItems: MutableList<TodoItem>?) : RecyclerView.Adap
     }
 
     fun addItem(todoItem: TodoItem) {
-        if (todoItem != null) {
-            todoItems?.add(todoItem)
-            notifyItemChanged(itemCount)
-        }
+        todoItems?.add(todoItem)
+        notifyItemChanged(itemCount)
     }
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {

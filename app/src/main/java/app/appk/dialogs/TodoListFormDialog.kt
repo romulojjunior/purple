@@ -25,7 +25,7 @@ class TodoListFormDialog : DialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater?.inflate(R.layout.dialog_todo_list_form, container, false)
+        val view = inflater?.inflate(R.layout.dialog_todo_list_form, container, false)
 
         titleEdiText = view?.find<EditText>(R.id.dialog_todo_list_form_TitleEditText)
 
@@ -69,7 +69,7 @@ class TodoListFormDialog : DialogFragment() {
         fun newInstance(todoList: TodoList?) : TodoListFormDialog {
             val dialogFragment = TodoListFormDialog()
             if (todoList != null) {
-                var args = Bundle()
+                val args = Bundle()
                 args.putSerializable(ARG_TODO_LIST, todoList)
                 dialogFragment.arguments = args
             }

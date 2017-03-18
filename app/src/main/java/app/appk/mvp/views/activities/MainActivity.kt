@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.Menu
-import android.view.MenuInflater
 import app.appk.R
 import app.appk.adapters.FragmentAdapter
 import app.appk.dialogs.TodoListFormDialog
@@ -35,32 +34,29 @@ class MainActivity : AppCompatActivity(), MainView {
     fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
 
-        val addMenuTodoList = menu?.add("New Todo List")
+        val addMenuTodoList = menu?.add(getString(R.string.new_todo_list))
         addMenuTodoList?.setOnMenuItemClickListener { showTodoListFormDialog(); false }
-        return false
-    }
 
-    override
-    fun onNewTodoListCreated(todoList: TodoList) {
-        toast("Reloading TodoLists")
-        mainPresenter?.loadUI()
+        return true
     }
 
     override
     fun loadViewPager(fragments: List<Fragment>?) {
-        var viewPager = find<ViewPager>(R.id.activity_main_ViewPager)
+        val viewPager = find<ViewPager>(R.id.activity_main_ViewPager)
         if (fragments != null) viewPager.adapter = FragmentAdapter(supportFragmentManager, fragments)
     }
 
+    // Interface shows
+
     override
     fun showTodoListFormDialog() {
-        var dialog = TodoListFormDialog.newInstance(null)
+        val dialog = TodoListFormDialog.newInstance(null)
         dialog.callback = object : TodoListFormDialog.Callback {
             override
             fun onSave(todoList: TodoList?): Unit {
                 if (todoList != null) {
                     toast(R.string.save)
-                    onNewTodoListCreated(todoList)
+                    onChangeNewTodoLists()
                 } else {
                     toast(R.string.not_saved)
                 }
@@ -75,19 +71,11 @@ class MainActivity : AppCompatActivity(), MainView {
         toast(message)
     }
 
-    // TODO: remote it
-    private fun mockItems(id: Long) {
-        var todoList = TodoList()
-        todoList.title = "Lista ".plus(id)
-        todoList.save()
+    // Interface callbacks
 
-        for(itemId in (1..20)) {
-            var todoItem = TodoItem()
-            todoItem.title = "item ".plus(itemId)
-            todoItem.description = "Descriçao ".plus(itemId)
-            todoItem.status = Status.done
-            todoItem.todoListId = todoList.id
-            todoItem.save()
-        }
+    override
+    fun onChangeNewTodoLists() {
+        toast("Reloading TodoLists")
+        mainPresenter?.loadUI()
     }
 }

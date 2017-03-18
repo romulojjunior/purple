@@ -9,7 +9,6 @@ import android.widget.TextView
 import app.appk.R
 import app.appk.adapters.TodoItemAdapter
 import app.appk.dialogs.TodoItemFormDialog
-import app.appk.dialogs.TodoListFormDialog
 import app.appk.models.TodoItem
 import app.appk.models.TodoList
 import app.appk.mvp.presenters.TodoListFragmentPresenter
@@ -58,7 +57,10 @@ class TodoListFragment : Fragment(), TodoListView {
     fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        var addMenuTodoItem = menu?.add("New Todo Item")
+        val removeMenuTodoList = menu?.add(getString(R.string.remove_this_list))
+        removeMenuTodoList?.setOnMenuItemClickListener { todoListPresenter?.removeTodoList(todoList); false }
+
+        val addMenuTodoItem = menu?.add(getString(R.string.new_todo_litem))
         addMenuTodoItem?.setOnMenuItemClickListener { showTodoItemFormDialog(); false }
     }
 
@@ -76,16 +78,18 @@ class TodoListFragment : Fragment(), TodoListView {
     override
     fun addNewItemToTodoItemsRecyclerView(todoItem: TodoItem) {
         if (todoItem?.save()!! > 0) {
-            var recyclerView = view?.find<RecyclerView>(R.id.fragment_todo_list_RecycleView)
-            var todoItemAdapter = recyclerView?.adapter as TodoItemAdapter
+            val recyclerView = view?.find<RecyclerView>(R.id.fragment_todo_list_RecycleView)
+            val todoItemAdapter = recyclerView?.adapter as TodoItemAdapter
             todoItemAdapter.addItem(todoItem)
             toast(R.string.item_added)
         }
     }
 
+    // Interface shows
+
     override
     fun showTodoItemFormDialog() {
-        var dialog = TodoItemFormDialog.newInstance(null)
+        val dialog = TodoItemFormDialog.newInstance(null)
         dialog.callback = object : TodoItemFormDialog.Callback {
             override
             fun onSave(todoItem: TodoItem?): Unit {
@@ -95,6 +99,19 @@ class TodoListFragment : Fragment(), TodoListView {
         }
 
         dialog.show(activity.supportFragmentManager, TodoItemFormDialog.TAG)
+    }
+
+    override
+    fun showMessage(message: String) {
+        toast(message)
+    }
+
+    // Interface callbacks
+
+    override
+    fun onRemoveTodoList() {
+        showMessage(getString(R.string.removed_todo_list))
+        (activity as MainView).onChangeNewTodoLists()
     }
 
     // Statics
