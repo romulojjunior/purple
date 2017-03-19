@@ -1,16 +1,21 @@
 package app.appk.adapters
 
+import android.support.v4.app.FragmentManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import app.appk.R
+import app.appk.dialogs.TodoItemFormDialog
 import app.appk.models.TodoItem
 import com.pawegio.kandroid.find
 
 
-class TodoItemAdapter(var todoItems: MutableList<TodoItem>?) : RecyclerView.Adapter<TodoItemAdapter.ViewHolder>() {
+class TodoItemAdapter(var todoItems: MutableList<TodoItem>?,
+                      var fragmentManager: FragmentManager)
+                    : RecyclerView.Adapter<TodoItemAdapter.ViewHolder>() {
+
     val resourceId: Int = R.layout.adapter_todo_item
 
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
@@ -18,9 +23,10 @@ class TodoItemAdapter(var todoItems: MutableList<TodoItem>?) : RecyclerView.Adap
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) : ViewHolder {
-        val view =  LayoutInflater.from(parent?.context).inflate(resourceId, parent!!, false)
+        val view = LayoutInflater.from(parent?.context).inflate(resourceId, parent!!, false)
         val viewHolder = ViewHolder(view)
         viewHolder.onDeleteItem = { item -> removeItem(item!!) }
+        viewHolder.onEditItem = { item -> showTodoItemFormDialog(item) }
 
         return viewHolder
     }
@@ -36,8 +42,20 @@ class TodoItemAdapter(var todoItems: MutableList<TodoItem>?) : RecyclerView.Adap
 
     fun removeItem(todoItem: TodoItem) {
         todoItems?.remove(todoItem)
-        todoItem?.delete()
+        todoItem.delete()
         notifyDataSetChanged()
+    }
+
+    fun showTodoItemFormDialog(item: TodoItem) {
+        val dialog = TodoItemFormDialog.newInstance(item)
+        dialog.callback = object : TodoItemFormDialog.Callback {
+            override
+            fun onSave(todoItem: TodoItem?) {
+                notifyDataSetChanged()
+            }
+        }
+
+        dialog.show(fragmentManager, TodoItemFormDialog.TAG)
     }
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
@@ -47,6 +65,7 @@ class TodoItemAdapter(var todoItems: MutableList<TodoItem>?) : RecyclerView.Adap
         var deleteButton: View? = null
 
         var onDeleteItem: (todoItem: TodoItem?) -> Unit = {  }
+        var onEditItem: (todoItem: TodoItem) -> Unit =  { }
 
 
         init {
@@ -61,6 +80,9 @@ class TodoItemAdapter(var todoItems: MutableList<TodoItem>?) : RecyclerView.Adap
             descriptionTextView?.text = item?.description
             statusTextView?.text = item?.status.toString()
             deleteButton?.setOnClickListener { onDeleteItem(item)}
+            itemView.setOnLongClickListener {
+                if (item != null) onEditItem(item); false
+            }
         }
     }
 }

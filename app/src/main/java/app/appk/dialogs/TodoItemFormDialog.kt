@@ -60,7 +60,7 @@ class TodoItemFormDialog : DialogFragment() {
     private fun saveTodoItem() {
         if (todoItem == null) todoItem = TodoItem()
 
-        // TODO: Validate fileds
+        // TODO: Validate fields
         todoItem?.title = titleEdiText?.text.toString()
         todoItem?.description = descriptionEditText?.text.toString()
         todoItem?.status = Status.todo

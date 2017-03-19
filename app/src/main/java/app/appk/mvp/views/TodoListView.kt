@@ -11,7 +11,7 @@ interface TodoListView {
 
     // Shows
     fun showMessage(message: String)
-    fun showTodoItemFormDialog()
+    fun showTodoItemFormDialog(item: TodoItem?)
 
     // Calbacks
     fun onRemoveTodoList()

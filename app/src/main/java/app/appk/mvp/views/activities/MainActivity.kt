@@ -8,8 +8,6 @@ import android.view.Menu
 import app.appk.R
 import app.appk.adapters.FragmentAdapter
 import app.appk.dialogs.TodoListFormDialog
-import app.appk.models.Status
-import app.appk.models.TodoItem
 import app.appk.models.TodoList
 import app.appk.mvp.presenters.MainActivityPresenter
 import app.appk.mvp.presenters.MainPresenter
