@@ -17,7 +17,7 @@ class MainActivityPresenter(
     override
     fun fetchTodoLists() {
         mainActivityModel.findTodoLists { item ->
-            val fragments: List<Fragment>? = item?.map { todoList ->TodoListFragment.newInstance(todoList.id) }
+            val fragments: List<Fragment>? = item?.map { todoList -> TodoListFragment.newInstance(todoList.id) }
             mainView.loadViewPager(fragments)
         }
     }
