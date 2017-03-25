@@ -8,6 +8,8 @@ import android.widget.EditText
 import app.appk.models.TodoItem
 import android.support.v4.app.DialogFragment
 import android.widget.Button
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import app.appk.R
 import app.appk.models.Status
 import com.pawegio.kandroid.find
@@ -18,58 +20,88 @@ class TodoItemFormDialog : DialogFragment() {
     private var todoItem: TodoItem? = null
     var callback: Callback? = null
 
-    var titleEdiText: EditText? = null
-    var descriptionEditText: EditText? = null
-    var statusEditText: EditText? = null
+    private var titleEdiText: EditText? = null
+    private var descriptionEditText: EditText? = null
+    private var statusRadioGroup: RadioGroup? = null
+    private var submitButton: Button? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override
+    fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         todoItem = arguments?.getSerializable(ARG_TODO_ITEM) as? TodoItem
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.dialog_todo_item_form, container, false)
+    override
+    fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater?.inflate(R.layout.dialog_todo_item_form, container, false)
+    }
 
-        titleEdiText = view?.find<EditText>(R.id.dialog_todo_item_form_TitleEditText)
-        descriptionEditText = view?.find<EditText>(R.id.dialog_todo_item_form_DescriptionEditText)
-        statusEditText = view?.find<EditText>(R.id.dialog_todo_item_form_StatusEditText)
+    override
+    fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         loadForm(view, todoItem)
-        return view
     }
 
-    private fun loadForm(view: View?, todoItem: TodoItem?) {
-        if (view != null && todoItem != null) {
+    private
+    fun loadForm(view: View?, todoItem: TodoItem?) {
+        titleEdiText = view?.find<EditText>(R.id.dialog_todo_item_form_TitleEditText)
+        descriptionEditText = view?.find<EditText>(R.id.dialog_todo_item_form_DescriptionEditText)
+        loadSubmitButton(view)
+        loadRadioGroup(view)
+
+        if (todoItem != null) {
             titleEdiText?.setText(todoItem.title)
             descriptionEditText?.setText(todoItem.description)
-            statusEditText?.setText(todoItem.status.toString())
-        }
 
-        val buttonSubmit = view?.find<Button>(R.id.dialog_todo_item_form_SubmitButton)
-        buttonSubmit?.setText(loadButtonText())
-        buttonSubmit?.setOnClickListener { saveTodoItem() }
+            when(todoItem.status.toString()) {
+                "todo" ->  view?.find<RadioButton>(
+                        R.id.dialog_todo_item_form_TodoRadioButton)?.isChecked  = true
+
+                "doing" -> view?.find<RadioButton>(
+                        R.id.dialog_todo_item_form_DoingRadioButton)?.isChecked  = true
+
+                "done" -> view?.find<RadioButton>(
+                        R.id.dialog_todo_item_form_DoneRadioButton)?.isChecked  = true
+
+                else -> view?.find<RadioButton>(
+                        R.id.dialog_todo_item_form_TodoRadioButton)?.isChecked  = true
+            }
+        }
     }
 
-    private fun loadButtonText() : Int {
-        if  (todoItem != null)
-            return R.string.save
-        else
-            return R.string.create
+    private fun loadSubmitButton(view: View?) {
+        val buttonText = if (todoItem != null) R.string.save else R.string.create
+        submitButton = view?.find<Button>(R.id.dialog_todo_item_form_SubmitButton)
+        submitButton?.setText(buttonText)
+        submitButton?.setOnClickListener { saveTodoItem() }
+    }
+
+    private fun loadRadioGroup(view: View?) {
+        statusRadioGroup = view?.find<RadioGroup>(R.id.dialog_todo_item_form_StatusRadioGroup)
+        statusRadioGroup?.setOnCheckedChangeListener { _, id ->
+            when(id) {
+                R.id.dialog_todo_item_form_TodoRadioButton -> todoItem?.status = Status.todo
+                R.id.dialog_todo_item_form_DoingRadioButton -> todoItem?.status = Status.doing
+                R.id.dialog_todo_item_form_DoneRadioButton -> todoItem?.status = Status.done
+                else -> todoItem?.status = Status.todo
+            }
+        }
     }
 
     private fun saveTodoItem() {
         if (todoItem == null) todoItem = TodoItem()
 
-        // TODO: Validate fields
         todoItem?.title = titleEdiText?.text.toString()
         todoItem?.description = descriptionEditText?.text.toString()
-        todoItem?.status = Status.todo
 
         if (todoItem?.save()!! > 0) {
             callback?.onSave(todoItem)
             dismiss()
         }
     }
+
+    // Statics
 
     companion object {
         const val ARG_TODO_ITEM = "ARG_TODO_ITEM"

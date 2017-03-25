@@ -19,7 +19,10 @@
             android:layout_height="wrap_content"
             android:id="@+id/adapter_todo_item_TitleTextView"
             style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_toStartOf="@+id/adapter_todo_item_DeleteImageView" />
+            android:layout_toStartOf="@+id/adapter_todo_item_DeleteImageView"
+            android:elevation="1dp"
+            android:ellipsize="end"
+            android:textColor="#c3000000"/>
 
         <TextView
             android:text="TextView"
@@ -39,7 +42,8 @@
             style="@style/TextAppearance.AppCompat.Small"
             android:layout_below="@+id/adapter_todo_item_DescriptionTextView"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:textColor="#ce318f"/>
 
         <ImageView
             android:layout_width="wrap_content"

@@ -20,7 +20,8 @@ class TodoListFragmentPresenter(
         todoListModel.fetchTodoList(id, callback)
     }
 
-    override fun removeTodoList(todoList: TodoList?) {
+    override
+    fun removeTodoList(todoList: TodoList?) {
         todoListModel.remove(todoList, { wasRemoved ->
             if (wasRemoved) {
                 todoListView.onRemoveTodoList()
