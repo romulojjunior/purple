@@ -69,7 +69,7 @@ class TodoListFragment : Fragment(), TodoListView {
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
         val todoItems: MutableList<TodoItem>? = todoList.todoItems()
-        val adapter = TodoItemAdapter(todoItems, activity.supportFragmentManager)
+        val adapter = TodoItemAdapter(activity, todoItems, activity.supportFragmentManager)
         if (todoItems != null) recyclerView?.adapter = adapter
     }
 

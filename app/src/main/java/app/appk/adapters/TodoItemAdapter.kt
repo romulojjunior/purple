@@ -1,6 +1,8 @@
 package app.appk.adapters
 
+import android.content.Context
 import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import app.appk.R
 import app.appk.dialogs.TodoItemFormDialog
+import app.appk.models.Status
 import app.appk.models.TodoItem
 import com.pawegio.kandroid.find
 
 
-class TodoItemAdapter(var todoItems: MutableList<TodoItem>?,
+class TodoItemAdapter(var context: Context,
+                      var todoItems: MutableList<TodoItem>?,
                       var fragmentManager: FragmentManager)
                     : RecyclerView.Adapter<TodoItemAdapter.ViewHolder>() {
 
@@ -24,7 +28,7 @@ class TodoItemAdapter(var todoItems: MutableList<TodoItem>?,
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) : ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(resourceId, parent!!, false)
-        val viewHolder = ViewHolder(view)
+        val viewHolder = ViewHolder(context, view)
         viewHolder.onDeleteItem = { item -> removeItem(item!!) }
         viewHolder.onEditItem = { item -> showTodoItemFormDialog(item) }
 
@@ -58,7 +62,7 @@ class TodoItemAdapter(var todoItems: MutableList<TodoItem>?,
         dialog.show(fragmentManager, TodoItemFormDialog.TAG)
     }
 
-    class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(var context: Context, itemView: View?) : RecyclerView.ViewHolder(itemView) {
         var titleTextView: TextView? = null
         var descriptionTextView: TextView? = null
         var statusTextView: TextView? = null
@@ -78,10 +82,26 @@ class TodoItemAdapter(var todoItems: MutableList<TodoItem>?,
         fun bindView(item: TodoItem?) {
             titleTextView?.text = item?.title
             descriptionTextView?.text = item?.description
-            statusTextView?.text = item?.status.toString()
+            bindStatusTextView(item?.status.toString())
+
             deleteButton?.setOnClickListener { onDeleteItem(item)}
             itemView.setOnLongClickListener {
                 if (item != null) onEditItem(item); false
+            }
+        }
+
+        private fun bindStatusTextView(status: String?) {
+            if (status != null) {
+                statusTextView?.text = status
+
+                when(status) {
+                    Status.todo.toString() -> statusTextView?.setTextColor(
+                            ContextCompat.getColor(context, R.color.status_todo_color))
+                    Status.doing.toString() ->  statusTextView?.setTextColor(
+                            ContextCompat.getColor(context, R.color.status_doing_color))
+                    Status.done.toString() ->  statusTextView?.setTextColor(
+                            ContextCompat.getColor(context, R.color.status_done_color))
+                }
             }
         }
     }

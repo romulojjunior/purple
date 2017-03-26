@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- https://material.io/guidelines/style/color.html# -->
 <resources>
-    <color name="colorPrimary">#9c27b0</color>
+    <color name="colorPrimary">#9C27B0</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!-- App colors -->
+
+    <color name="status_todo_color">#9C27B0</color>
+    <color name="status_doing_color">#2196F3</color>
+    <color name="status_done_color">#009688</color>
+
 </resources>
