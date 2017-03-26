@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:text="TextView"
+    <RelativeLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/fragment_todo_list_TextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:textAlignment="center"
+            android:textColor="#727fe6"
+            android:padding="6dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_todo_list_RecycleView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/fragment_todo_list_TextView" />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fragment_todo_list_TextView"
-        android:textAlignment="center"
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="#727fe6"
-        android:padding="6dp" />
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:id="@+id/fragment_todo_list_AddItemButton"
+        android:src="@drawable/ic_add_white_24dp"
+        app:fabSize="mini" />
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/fragment_todo_list_RecycleView"
-        android:layout_below="@+id/fragment_todo_list_TextView" />
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

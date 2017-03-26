@@ -15,4 +15,6 @@ interface TodoListView {
 
     // Calbacks
     fun onRemoveTodoList()
+
+    fun loadAddItemButton()
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.Menu
+import android.view.MenuItem
 import app.appk.R
 import app.appk.adapters.FragmentAdapter
 import app.appk.dialogs.TodoListFormDialog
@@ -32,8 +33,10 @@ class MainActivity : AppCompatActivity(), MainView {
     fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
 
-        val addMenuTodoList = menu?.add(getString(R.string.new_todo_list))
+        val addMenuTodoList = menu?.add(getString(R.string.new_list))
         addMenuTodoList?.setOnMenuItemClickListener { showTodoListFormDialog(); false }
+        addMenuTodoList?.setIcon(R.drawable.ic_list_add_white_24dp)
+        addMenuTodoList?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 
         return true
     }

@@ -13,6 +13,7 @@ class TodoListFragmentPresenter(
     override
     fun loadUI(todoList: TodoList) {
         todoListView.loadTodoItemsRecyclerView(todoList)
+        todoListView.loadAddItemButton()
     }
 
     override

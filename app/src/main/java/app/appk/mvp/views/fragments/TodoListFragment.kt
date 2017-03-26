@@ -57,11 +57,8 @@ class TodoListFragment : Fragment(), TodoListView {
     fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
 
-        val removeMenuTodoList = menu?.add(getString(R.string.remove_this_list))
+        val removeMenuTodoList = menu?.add(getString(R.string.remove_list))
         removeMenuTodoList?.setOnMenuItemClickListener { todoListPresenter?.removeTodoList(todoList); false }
-
-        val addMenuTodoItem = menu?.add(getString(R.string.new_todo_litem))
-        addMenuTodoItem?.setOnMenuItemClickListener { showTodoItemFormDialog(null); false }
     }
 
     // From View Interface
@@ -83,6 +80,13 @@ class TodoListFragment : Fragment(), TodoListView {
             val todoItemAdapter = recyclerView?.adapter as TodoItemAdapter
             todoItemAdapter.addItem(todoItem)
             toast(R.string.item_added)
+        }
+    }
+
+    override
+    fun loadAddItemButton() {
+        view?.find<View>(R.id.fragment_todo_list_AddItemButton)?.setOnClickListener {
+            showTodoItemFormDialog(null)
         }
     }
 
