@@ -22,11 +22,13 @@ class TodoItemAdapter(var context: Context,
 
     val resourceId: Int = R.layout.adapter_todo_item
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+    override
+    fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         holder?.bindView(todoItems?.get(position))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) : ViewHolder {
+    override
+    fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) : ViewHolder {
         val view = LayoutInflater.from(parent?.context).inflate(resourceId, parent!!, false)
         val viewHolder = ViewHolder(context, view)
         viewHolder.onDeleteItem = { item -> removeItem(item!!) }
@@ -35,7 +37,8 @@ class TodoItemAdapter(var context: Context,
         return viewHolder
     }
 
-    override fun getItemCount(): Int {
+    override
+    fun getItemCount(): Int {
         return todoItems?.size ?: 0
     }
 

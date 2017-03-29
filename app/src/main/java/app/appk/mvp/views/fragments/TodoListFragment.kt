@@ -61,7 +61,14 @@ class TodoListFragment : Fragment(), TodoListView {
         removeMenuTodoList?.setOnMenuItemClickListener { todoListPresenter?.removeTodoList(todoList); false }
     }
 
-    // From View Interface
+    // Interface methods
+
+    override
+    fun loadAddItemButton() {
+        view?.find<View>(R.id.fragment_todo_list_AddItemButton)?.setOnClickListener {
+            showTodoItemFormDialog(null)
+        }
+    }
 
     override
     fun loadTodoItemsRecyclerView(todoList: TodoList) {
@@ -82,15 +89,6 @@ class TodoListFragment : Fragment(), TodoListView {
             toast(R.string.item_added)
         }
     }
-
-    override
-    fun loadAddItemButton() {
-        view?.find<View>(R.id.fragment_todo_list_AddItemButton)?.setOnClickListener {
-            showTodoItemFormDialog(null)
-        }
-    }
-
-    // Interface shows
 
     override
     fun showTodoItemFormDialog(item: TodoItem?) {

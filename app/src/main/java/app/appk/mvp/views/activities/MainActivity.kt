@@ -41,13 +41,13 @@ class MainActivity : AppCompatActivity(), MainView {
         return true
     }
 
+    // Interface methods
+
     override
     fun loadViewPager(fragments: List<Fragment>?) {
         val viewPager = find<ViewPager>(R.id.activity_main_ViewPager)
         if (fragments != null) viewPager.adapter = FragmentAdapter(supportFragmentManager, fragments)
     }
-
-    // Interface shows
 
     override
     fun showTodoListFormDialog() {

@@ -19,12 +19,14 @@ class TodoListFormDialog : DialogFragment() {
 
     var titleEdiText: EditText? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override
+    fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         todoList = arguments?.getSerializable(ARG_TODO_LIST) as? TodoList
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override
+    fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.dialog_todo_list_form, container, false)
 
         titleEdiText = view?.find<EditText>(R.id.dialog_todo_list_form_TitleEditText)
@@ -33,7 +35,8 @@ class TodoListFormDialog : DialogFragment() {
         return view
     }
 
-    private fun loadForm(view: View?, todoItem: TodoList?) {
+    private
+    fun loadForm(view: View?, todoItem: TodoList?) {
         if (view != null && todoItem != null) {
             titleEdiText?.setText(todoItem.title)
         }
@@ -53,7 +56,7 @@ class TodoListFormDialog : DialogFragment() {
     private fun saveTodoItem() {
         if (todoList == null) todoList = TodoList()
 
-        // TODO: Validate fileds
+        // TODO: Validate fields
         todoList?.title = titleEdiText?.text.toString()
 
         if (todoList?.save()!! > 0) {

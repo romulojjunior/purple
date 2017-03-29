@@ -5,16 +5,13 @@ import app.appk.models.TodoItem
 import app.appk.models.TodoList
 
 interface TodoListView {
+    fun loadAddItemButton()
     fun loadTodoItemsRecyclerView(todoList: TodoList)
     fun addNewItemToTodoItemsRecyclerView(todoItem: TodoItem)
     fun getContext(): Context
-
-    // Shows
     fun showMessage(message: String)
     fun showTodoItemFormDialog(item: TodoItem?)
 
     // Calbacks
     fun onRemoveTodoList()
-
-    fun loadAddItemButton()
 }
