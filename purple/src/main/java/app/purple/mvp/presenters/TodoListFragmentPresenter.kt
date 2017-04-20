@@ -12,12 +12,16 @@ class TodoListFragmentPresenter(
 
     override
     fun loadUI(todoList: TodoList) {
-        todoListView.loadTodoItemsRecyclerView(todoList)
-        todoListView.loadAddItemButton()
+        todoListView.onLoadTodoItemsRecyclerView(todoList)
+        todoListView.onLoadAddItemButton()
     }
 
     override
-    fun fetchTodoList(id :Long, callback: (TodoList?) -> Unit) {
+    fun fetchTodoList(id :Long) {
+        val callback = { todoList: TodoList? ->
+            todoListView.onFetchTodoList(todoList)
+        }
+
         todoListModel.fetchTodoList(id, callback)
     }
 
@@ -27,7 +31,7 @@ class TodoListFragmentPresenter(
             if (wasRemoved) {
                 todoListView.onRemoveTodoList()
             } else {
-                todoListView.showMessage(todoListView.getContext().getString(R.string.try_again))
+                todoListView.onShowMessage(todoListView.getContext().getString(R.string.try_again))
             }
         })
     }

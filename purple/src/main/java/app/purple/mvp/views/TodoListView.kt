@@ -5,13 +5,12 @@ import app.purple.models.TodoItem
 import app.purple.models.TodoList
 
 interface TodoListView {
-    fun loadAddItemButton()
-    fun loadTodoItemsRecyclerView(todoList: TodoList)
-    fun addNewItemToTodoItemsRecyclerView(todoItem: TodoItem)
+    fun onFetchTodoList(todoList: TodoList?)
+    fun onLoadAddItemButton()
+    fun onLoadTodoItemsRecyclerView(todoList: TodoList)
+    fun onAddNewItemToTodoItemsRecyclerView(todoItem: TodoItem)
     fun getContext(): Context
-    fun showMessage(message: String)
-    fun showTodoItemFormDialog(item: TodoItem?)
-
-    // Calbacks
+    fun onShowMessage(message: String)
+    fun onShowTodoItemFormDialog(item: TodoItem?)
     fun onRemoveTodoList()
 }

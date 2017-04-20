@@ -43,14 +43,7 @@ class TodoListFragment : Fragment(), TodoListView {
         super.onViewCreated(view, savedInstanceState)
 
         val todoListId = arguments!!.getLong(TODO_LIST_ID)
-        val callback = { todoList: TodoList? ->
-            this.todoList = todoList
-            this.titleTextView?.text = todoList?.title
-
-            if (todoList != null) todoListPresenter?.loadUI(todoList)
-        }
-
-        todoListPresenter?.fetchTodoList(todoListId, callback)
+        todoListPresenter?.fetchTodoList(todoListId)
     }
 
     override
@@ -61,17 +54,23 @@ class TodoListFragment : Fragment(), TodoListView {
         removeMenuTodoList?.setOnMenuItemClickListener { todoListPresenter?.removeTodoList(todoList); false }
     }
 
-    // Interface methods
+    override
+    fun onFetchTodoList(todoList: TodoList?) {
+        this.todoList = todoList
+        this.titleTextView?.text = todoList?.title
+
+        if (todoList != null) todoListPresenter?.loadUI(todoList)
+    }
 
     override
-    fun loadAddItemButton() {
+    fun onLoadAddItemButton() {
         view?.find<View>(R.id.fragment_todo_list_AddItemButton)?.setOnClickListener {
-            showTodoItemFormDialog(null)
+            onShowTodoItemFormDialog(null)
         }
     }
 
     override
-    fun loadTodoItemsRecyclerView(todoList: TodoList) {
+    fun onLoadTodoItemsRecyclerView(todoList: TodoList) {
         val recyclerView = view?.find<RecyclerView>(R.id.fragment_todo_list_RecycleView)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
@@ -81,7 +80,7 @@ class TodoListFragment : Fragment(), TodoListView {
     }
 
     override
-    fun addNewItemToTodoItemsRecyclerView(todoItem: TodoItem) {
+    fun onAddNewItemToTodoItemsRecyclerView(todoItem: TodoItem) {
         if (todoItem.save() > 0) {
             val recyclerView = view?.find<RecyclerView>(R.id.fragment_todo_list_RecycleView)
             val todoItemAdapter = recyclerView?.adapter as TodoItemAdapter
@@ -91,13 +90,13 @@ class TodoListFragment : Fragment(), TodoListView {
     }
 
     override
-    fun showTodoItemFormDialog(item: TodoItem?) {
+    fun onShowTodoItemFormDialog(item: TodoItem?) {
         val dialog = TodoItemFormDialog.newInstance(item)
         dialog.callback = object : TodoItemFormDialog.Callback {
             override
             fun onSave(todoItem: TodoItem?) {
                 todoItem?.todoListId = todoList?.id
-                addNewItemToTodoItemsRecyclerView(todoItem!!)
+                onAddNewItemToTodoItemsRecyclerView(todoItem!!)
             }
         }
 
@@ -105,15 +104,13 @@ class TodoListFragment : Fragment(), TodoListView {
     }
 
     override
-    fun showMessage(message: String) {
+    fun onShowMessage(message: String) {
         toast(message)
     }
 
-    // Interface callbacks
-
     override
     fun onRemoveTodoList() {
-        showMessage(getString(R.string.removed_todo_list))
+        onShowMessage(getString(R.string.removed_todo_list))
         (activity as MainView).onChangeNewTodoLists()
     }
 

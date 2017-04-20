@@ -34,23 +34,27 @@ class MainActivity : AppCompatActivity(), MainView {
         super.onCreateOptionsMenu(menu)
 
         val addMenuTodoList = menu?.add(getString(R.string.new_list))
-        addMenuTodoList?.setOnMenuItemClickListener { showTodoListFormDialog(); false }
+        addMenuTodoList?.setOnMenuItemClickListener { onShowTodoListFormDialog(); false }
         addMenuTodoList?.setIcon(R.drawable.ic_list_add_white_24dp)
         addMenuTodoList?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 
         return true
     }
 
-    // Interface methods
-
     override
-    fun loadViewPager(fragments: List<Fragment>?) {
+    fun onLoadViewPager(fragments: List<Fragment>?) {
         val viewPager = find<ViewPager>(R.id.activity_main_ViewPager)
         if (fragments != null) viewPager.adapter = FragmentAdapter(supportFragmentManager, fragments)
     }
 
     override
-    fun showTodoListFormDialog() {
+    fun onChangeNewTodoLists() {
+        toast("Reloading TodoLists")
+        mainPresenter?.loadUI()
+    }
+
+    override
+    fun onShowTodoListFormDialog() {
         val dialog = TodoListFormDialog.newInstance(null)
         dialog.callback = object : TodoListFormDialog.Callback {
             override
@@ -68,15 +72,7 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override
-    fun showMessage(message: String) {
+    fun onShowMessage(message: String) {
         toast(message)
-    }
-
-    // Interface callbacks
-
-    override
-    fun onChangeNewTodoLists() {
-        toast("Reloading TodoLists")
-        mainPresenter?.loadUI()
     }
 }
