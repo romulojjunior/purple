@@ -1,11 +1,11 @@
 package app.purple.mvp.views.activities
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
+import app.purple.GenericActivity
 import app.purple.R
 import app.purple.adapters.FragmentAdapter
 import app.purple.dialogs.TodoListFormDialog
@@ -16,15 +16,13 @@ import app.purple.mvp.views.MainView
 import com.pawegio.kandroid.find
 import com.pawegio.kandroid.toast
 
-class MainActivity : AppCompatActivity(), MainView {
-
+class MainActivity : GenericActivity(), MainView {
     var mainPresenter: MainPresenter? = null
 
     override
     fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         mainPresenter = MainActivityPresenter(this)
         mainPresenter?.loadUI()
     }
@@ -69,10 +67,5 @@ class MainActivity : AppCompatActivity(), MainView {
         }
 
         dialog.show(supportFragmentManager, TodoListFormDialog.TAG)
-    }
-
-    override
-    fun onShowMessage(message: String) {
-        toast(message)
     }
 }

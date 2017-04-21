@@ -1,6 +1,7 @@
 package app.purple.mvp.presenters
 
 import android.support.v4.app.Fragment
+import app.purple.models.TodoList
 import app.purple.mvp.models.MainActivityModel
 import app.purple.mvp.views.MainView
 import app.purple.mvp.views.fragments.TodoListFragment
@@ -16,12 +17,15 @@ class MainActivityPresenter(
 
     override
     fun fetchTodoLists() {
-        mainActivityModel.findTodoLists { item ->
-            val fragments: List<Fragment>? = item?.map { todoList ->
-                TodoListFragment.newInstance(todoList.id)
-            }
+        val observable =  mainActivityModel.findTodoLists()
 
-            mainView.onLoadViewPager(fragments)
-        }
+        mainView.compositeDisposable.add(
+                observable.subscribe({ todoList: MutableList<TodoList>? ->
+                        val fragments: List<Fragment>? = todoList?.map { todoList ->
+                        TodoListFragment.newInstance(todoList.id)
+                    }
+                mainView.onLoadViewPager(fragments)
+                })
+        )
     }
 }

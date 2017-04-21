@@ -1,9 +1,10 @@
 package app.purple.mvp.views
 
 import android.support.v4.app.Fragment
-import app.purple.models.TodoList
+import io.reactivex.disposables.CompositeDisposable
 
 interface MainView {
+    val compositeDisposable: CompositeDisposable
     fun onLoadViewPager(fragments: List<Fragment>?)
     fun onChangeNewTodoLists()
     fun onShowTodoListFormDialog()

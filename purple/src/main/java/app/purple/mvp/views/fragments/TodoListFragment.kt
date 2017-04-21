@@ -1,11 +1,11 @@
 package app.purple.mvp.views.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.TextView
+import app.purple.GenericFragment
 import app.purple.R
 import app.purple.adapters.TodoItemAdapter
 import app.purple.dialogs.TodoItemFormDialog
@@ -18,7 +18,7 @@ import app.purple.mvp.views.TodoListView
 import com.pawegio.kandroid.find
 import com.pawegio.kandroid.toast
 
-class TodoListFragment : Fragment(), TodoListView {
+class TodoListFragment : GenericFragment(), TodoListView {
     var todoListPresenter: TodoListPresenter? = null
     var todoList: TodoList? = null
     var titleTextView: TextView? = null
@@ -101,11 +101,6 @@ class TodoListFragment : Fragment(), TodoListView {
         }
 
         dialog.show(activity.supportFragmentManager, TodoItemFormDialog.TAG)
-    }
-
-    override
-    fun onShowMessage(message: String) {
-        toast(message)
     }
 
     override

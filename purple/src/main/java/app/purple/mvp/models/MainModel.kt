@@ -1,7 +1,8 @@
 package app.purple.mvp.models
 
 import app.purple.models.TodoList
+import io.reactivex.Observable
 
 interface MainModel {
-    fun findTodoLists(callback: (MutableList<TodoList>?) -> Unit)
+    fun findTodoLists() : Observable<MutableList<TodoList>?>
 }

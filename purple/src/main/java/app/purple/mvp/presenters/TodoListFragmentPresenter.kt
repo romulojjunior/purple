@@ -18,21 +18,33 @@ class TodoListFragmentPresenter(
 
     override
     fun fetchTodoList(id :Long) {
-        val callback = { todoList: TodoList? ->
-            todoListView.onFetchTodoList(todoList)
-        }
-
-        todoListModel.fetchTodoList(id, callback)
+        val observable = todoListModel.fetchTodoList(id)
+        todoListView.compositeDisposable.add(
+                observable.subscribe({ todoList: TodoList? ->
+                    todoListView.onFetchTodoList(todoList)
+                })
+        )
     }
 
     override
     fun removeTodoList(todoList: TodoList?) {
-        todoListModel.remove(todoList, { wasRemoved ->
-            if (wasRemoved) {
-                todoListView.onRemoveTodoList()
-            } else {
-                todoListView.onShowMessage(todoListView.getContext().getString(R.string.try_again))
-            }
-        })
+        val observable = todoListModel.remove(todoList)
+
+        observable.doOnError { error ->
+            error.printStackTrace()
+            val message = todoListView.getContext().getString(R.string.try_again)
+            todoListView.onShowMessage(message)
+        }
+
+        todoListView.compositeDisposable.add(
+                observable.subscribe({ wasRemoved: Boolean ->
+                    if (wasRemoved) {
+                        todoListView.onRemoveTodoList()
+                    } else {
+                        val message = todoListView.getContext().getString(R.string.try_again)
+                        todoListView.onShowMessage(message)
+                    }
+                })
+        )
     }
 }
