@@ -1,4 +1,4 @@
-package app.purple.mvp.views
+package app.purple.mvp.contracts
 
 import android.content.Context
 import app.purple.models.TodoItem

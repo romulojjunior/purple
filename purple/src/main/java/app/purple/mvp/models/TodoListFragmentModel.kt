@@ -1,6 +1,7 @@
 package app.purple.mvp.models
 
 import app.purple.models.TodoList
+import app.purple.mvp.contracts.TodoListModel
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

@@ -12,10 +12,10 @@ import app.purple.adapters.TodoItemAdapter
 import app.purple.dialogs.TodoItemFormDialog
 import app.purple.models.TodoItem
 import app.purple.models.TodoList
+import app.purple.mvp.contracts.MainContract
 import app.purple.mvp.presenters.TodoListFragmentPresenter
-import app.purple.mvp.presenters.TodoListPresenter
-import app.purple.mvp.views.MainView
-import app.purple.mvp.views.TodoListView
+import app.purple.mvp.contracts.TodoListPresenter
+import app.purple.mvp.contracts.TodoListView
 
 class TodoListFragment : GenericFragment(), TodoListView {
     var todoListPresenter: TodoListPresenter? = null
@@ -31,7 +31,7 @@ class TodoListFragment : GenericFragment(), TodoListView {
 
     override
     fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view =  inflater?.inflate(R.layout.fragment_todo_list, container, false)
+        val view =  inflater.inflate(R.layout.fragment_todo_list, container, false)
         titleTextView = view?.findViewById(R.id.fragment_todo_list_TextView)
 
         return view
@@ -119,7 +119,7 @@ class TodoListFragment : GenericFragment(), TodoListView {
     override
     fun onRemoveTodoList() {
         onShowMessage(getString(R.string.removed_todo_list))
-        (activity as MainView).onChangeNewTodoLists()
+        (activity as MainContract.View).onChangeNewTodoLists()
     }
 
     // Statics

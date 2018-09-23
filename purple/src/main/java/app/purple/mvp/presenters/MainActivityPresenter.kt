@@ -2,13 +2,14 @@ package app.purple.mvp.presenters
 
 import android.support.v4.app.Fragment
 import app.purple.models.TodoList
+import app.purple.mvp.contracts.MainContract
 import app.purple.mvp.models.MainActivityModel
-import app.purple.mvp.views.MainView
 import app.purple.mvp.views.fragments.TodoListFragment
 
 class MainActivityPresenter(
-        var mainView: MainView,
-        var mainActivityModel: MainActivityModel = MainActivityModel()): MainPresenter {
+        var mainView: MainContract.View,
+        var mainActivityModel: MainActivityModel = MainActivityModel() ) :
+        MainContract.Presenter{
 
     override
     fun loadUI() {

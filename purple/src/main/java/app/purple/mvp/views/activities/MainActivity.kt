@@ -10,14 +10,11 @@ import app.purple.R
 import app.purple.adapters.FragmentAdapter
 import app.purple.dialogs.TodoListFormDialog
 import app.purple.models.TodoList
+import app.purple.mvp.contracts.MainContract
 import app.purple.mvp.presenters.MainActivityPresenter
-import app.purple.mvp.presenters.MainPresenter
-import app.purple.mvp.views.MainView
-import com.pawegio.kandroid.find
-import com.pawegio.kandroid.toast
 
-class MainActivity : GenericActivity(), MainView {
-    var mainPresenter: MainPresenter? = null
+class MainActivity : GenericActivity(), MainContract.View {
+    var mainPresenter: MainContract.Presenter? = null
 
     override
     fun onCreate(savedInstanceState: Bundle?) {
@@ -41,13 +38,13 @@ class MainActivity : GenericActivity(), MainView {
 
     override
     fun onLoadViewPager(fragments: List<Fragment>?) {
-        val viewPager = find<ViewPager>(R.id.activity_main_ViewPager)
+        val viewPager = findViewById<ViewPager>(R.id.activity_main_ViewPager)
         if (fragments != null) viewPager.adapter = FragmentAdapter(supportFragmentManager, fragments)
     }
 
     override
     fun onChangeNewTodoLists() {
-        toast("Reloading TodoLists")
+        onShowMessage("Reloading TodoLists")
         mainPresenter?.loadUI()
     }
 
@@ -58,10 +55,10 @@ class MainActivity : GenericActivity(), MainView {
             override
             fun onSave(todoList: TodoList?): Unit {
                 if (todoList != null) {
-                    toast(R.string.save)
+                    onShowMessage(getString(R.string.save))
                     onChangeNewTodoLists()
                 } else {
-                    toast(R.string.not_saved)
+                    onShowMessage(getString(R.string.not_saved))
                 }
             }
         }
