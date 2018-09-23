@@ -1,14 +1,14 @@
-package app.purple.mvp.presenters
+package app.purple.features.home.presenters
 
 import android.support.v4.app.Fragment
 import app.purple.models.TodoList
-import app.purple.mvp.contracts.MainContract
-import app.purple.mvp.models.MainActivityModel
-import app.purple.mvp.views.fragments.TodoListFragment
+import app.purple.features.home.contracts.MainContract
+import app.purple.features.home.models.MainActivityModel
+import app.purple.features.todoList.views.TodoListFragment
 
 class MainActivityPresenter(
         var mainView: MainContract.View,
-        var mainActivityModel: MainContract.Model = MainActivityModel() ) :
+        var mainActivityModel: MainContract.Model = MainActivityModel()) :
         MainContract.Presenter{
 
     override

@@ -1,4 +1,4 @@
-package app.purple.mvp.views.fragments
+package app.purple.features.todoList.views
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -6,15 +6,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
-import app.purple.GenericFragment
+import app.purple.base.GenericFragment
 import app.purple.R
 import app.purple.adapters.TodoItemAdapter
 import app.purple.dialogs.TodoItemFormDialog
 import app.purple.models.TodoItem
 import app.purple.models.TodoList
-import app.purple.mvp.contracts.MainContract
-import app.purple.mvp.contracts.TodoListContract
-import app.purple.mvp.presenters.TodoListFragmentPresenter
+import app.purple.features.home.contracts.MainContract
+import app.purple.features.todoList.contracts.TodoListContract
+import app.purple.features.todoList.presenters.TodoListFragmentPresenter
 
 class TodoListFragment : GenericFragment(), TodoListContract.View {
     var todoListPresenter: TodoListContract.Presenter? = null

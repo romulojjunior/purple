@@ -1,4 +1,4 @@
-package app.purple
+package app.purple.base
 
 import android.support.v4.app.Fragment
 import android.widget.Toast

@@ -1,17 +1,17 @@
-package app.purple.mvp.views.activities
+package app.purple.features.home.views
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
-import app.purple.GenericActivity
+import app.purple.base.GenericActivity
 import app.purple.R
 import app.purple.adapters.FragmentAdapter
 import app.purple.dialogs.TodoListFormDialog
 import app.purple.models.TodoList
-import app.purple.mvp.contracts.MainContract
-import app.purple.mvp.presenters.MainActivityPresenter
+import app.purple.features.home.contracts.MainContract
+import app.purple.features.home.presenters.MainActivityPresenter
 
 class MainActivity : GenericActivity(), MainContract.View {
     var mainPresenter: MainContract.Presenter? = null

@@ -1,9 +1,9 @@
-package app.purple.mvp.presenters
+package app.purple.features.todoList.presenters
 
 import app.purple.R
 import app.purple.models.TodoList
-import app.purple.mvp.contracts.TodoListContract
-import app.purple.mvp.models.TodoListFragmentModel
+import app.purple.features.todoList.contracts.TodoListContract
+import app.purple.features.todoList.models.TodoListFragmentModel
 
 class TodoListFragmentPresenter(
         var todoListView: TodoListContract.View,

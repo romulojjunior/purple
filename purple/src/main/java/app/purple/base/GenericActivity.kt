@@ -1,4 +1,4 @@
-package app.purple
+package app.purple.base
 
 import android.support.v7.app.AppCompatActivity
 import com.pawegio.kandroid.toast

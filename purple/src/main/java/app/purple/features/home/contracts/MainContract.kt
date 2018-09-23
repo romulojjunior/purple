@@ -1,4 +1,4 @@
-package app.purple.mvp.contracts
+package app.purple.features.home.contracts
 
 import android.support.v4.app.Fragment
 import app.purple.models.TodoList
