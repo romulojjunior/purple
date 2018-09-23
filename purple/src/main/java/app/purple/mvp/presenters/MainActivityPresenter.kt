@@ -20,12 +20,12 @@ class MainActivityPresenter(
         val observable =  mainActivityModel.findTodoLists()
 
         mainView.compositeDisposable.add(
-                observable.subscribe({ todoList: MutableList<TodoList>? ->
-                        val fragments: List<Fragment>? = todoList?.map { todoList ->
-                        TodoListFragment.newInstance(todoList.id)
+                observable.subscribe { todoList: MutableList<TodoList>? ->
+                        val fragments: List<Fragment>? = todoList?.map { it ->
+                        TodoListFragment.newInstance(it.id)
                     }
                 mainView.onLoadViewPager(fragments)
-                })
+                }
         )
     }
 }

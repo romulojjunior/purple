@@ -11,7 +11,7 @@ interface TodoListView {
     fun onLoadAddItemButton()
     fun onLoadTodoItemsRecyclerView(todoList: TodoList)
     fun onAddNewItemToTodoItemsRecyclerView(todoItem: TodoItem)
-    fun getContext(): Context
+    fun getContext(): Context?
     fun onShowMessage(message: String)
     fun onShowTodoItemFormDialog(item: TodoItem?)
     fun onRemoveTodoList()

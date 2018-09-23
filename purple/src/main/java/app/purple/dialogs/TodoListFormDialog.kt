@@ -9,7 +9,6 @@ import app.purple.models.TodoList
 import android.support.v4.app.DialogFragment
 import android.widget.Button
 import app.purple.R
-import com.pawegio.kandroid.find
 
 
 class TodoListFormDialog : DialogFragment() {
@@ -26,10 +25,10 @@ class TodoListFormDialog : DialogFragment() {
     }
 
     override
-    fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.dialog_todo_list_form, container, false)
+    fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val view = inflater.inflate(R.layout.dialog_todo_list_form, container, false)
 
-        titleEdiText = view?.find<EditText>(R.id.dialog_todo_list_form_TitleEditText)
+        titleEdiText = view?.findViewById(R.id.dialog_todo_list_form_TitleEditText)
 
         loadForm(view, todoList)
         return view
@@ -41,7 +40,7 @@ class TodoListFormDialog : DialogFragment() {
             titleEdiText?.setText(todoItem.title)
         }
 
-        val buttonSubmit = view?.find<Button>(R.id.dialog_todo_list_form_SubmitButton)
+        val buttonSubmit = view?.findViewById<Button>(R.id.dialog_todo_list_form_SubmitButton)
         buttonSubmit?.setText(loadButtonText())
         buttonSubmit?.setOnClickListener { saveTodoItem() }
     }

@@ -1,7 +1,6 @@
 package app.purple.adapters
 
 import android.content.Context
-import android.support.v4.app.FragmentManager
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,30 +8,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import app.purple.R
-import app.purple.dialogs.TodoItemFormDialog
 import app.purple.models.Status
 import app.purple.models.TodoItem
-import com.pawegio.kandroid.find
 
 
 class TodoItemAdapter(var context: Context,
-                      var todoItems: MutableList<TodoItem>?,
-                      var fragmentManager: FragmentManager)
+                      var todoItems: MutableList<TodoItem>?)
                     : RecyclerView.Adapter<TodoItemAdapter.ViewHolder>() {
 
     val resourceId: Int = R.layout.adapter_todo_item
+    lateinit var onShowDialog: (item: TodoItem, callback: (item: TodoItem?) -> Unit) -> Unit
 
     override
-    fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder?.bindView(todoItems?.get(position))
+    fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bindView(todoItems?.get(position))
     }
 
     override
-    fun onCreateViewHolder(parent: ViewGroup?, viewType: Int) : ViewHolder {
-        val view = LayoutInflater.from(parent?.context).inflate(resourceId, parent!!, false)
+    fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(resourceId, parent, false)
         val viewHolder = ViewHolder(context, view)
         viewHolder.onDeleteItem = { item -> removeItem(item!!) }
-        viewHolder.onEditItem = { item -> showTodoItemFormDialog(item) }
+        viewHolder.onEditItem = { item ->
+            onShowDialog(item) {
+                notifyDataSetChanged()
+            }
+        }
 
         return viewHolder
     }
@@ -53,18 +54,6 @@ class TodoItemAdapter(var context: Context,
         notifyDataSetChanged()
     }
 
-    fun showTodoItemFormDialog(item: TodoItem) {
-        val dialog = TodoItemFormDialog.newInstance(item)
-        dialog.callback = object : TodoItemFormDialog.Callback {
-            override
-            fun onSave(todoItem: TodoItem?) {
-                notifyDataSetChanged()
-            }
-        }
-
-        dialog.show(fragmentManager, TodoItemFormDialog.TAG)
-    }
-
     class ViewHolder(var context: Context, itemView: View?) : RecyclerView.ViewHolder(itemView) {
         var titleTextView: TextView? = null
         var descriptionTextView: TextView? = null
@@ -76,10 +65,10 @@ class TodoItemAdapter(var context: Context,
 
 
         init {
-            titleTextView = super.itemView?.find<TextView>(R.id.adapter_todo_item_TitleTextView)
-            descriptionTextView = super.itemView?.find<TextView>(R.id.adapter_todo_item_DescriptionTextView)
-            statusTextView = super.itemView?.find<TextView>(R.id.adapter_todo_item_StatusTextView)
-            deleteButton = super.itemView?.find<View>(R.id.adapter_todo_item_DeleteImageView)
+            titleTextView = super.itemView?.findViewById(R.id.adapter_todo_item_TitleTextView)
+            descriptionTextView = super.itemView?.findViewById(R.id.adapter_todo_item_DescriptionTextView)
+            statusTextView = super.itemView?.findViewById(R.id.adapter_todo_item_StatusTextView)
+            deleteButton = super.itemView?.findViewById(R.id.adapter_todo_item_DeleteImageView)
         }
 
         fun bindView(item: TodoItem?) {

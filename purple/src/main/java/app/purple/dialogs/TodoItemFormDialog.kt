@@ -12,7 +12,6 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import app.purple.R
 import app.purple.models.Status
-import com.pawegio.kandroid.find
 
 
 class TodoItemFormDialog : DialogFragment() {
@@ -32,12 +31,12 @@ class TodoItemFormDialog : DialogFragment() {
     }
 
     override
-    fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.dialog_todo_item_form, container, false)
+    fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.dialog_todo_item_form, container, false)
     }
 
     override
-    fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         loadForm(view, todoItem)
@@ -45,8 +44,8 @@ class TodoItemFormDialog : DialogFragment() {
 
     private
     fun loadForm(view: View?, todoItem: TodoItem?) {
-        titleEdiText = view?.find<EditText>(R.id.dialog_todo_item_form_TitleEditText)
-        descriptionEditText = view?.find<EditText>(R.id.dialog_todo_item_form_DescriptionEditText)
+        titleEdiText = view?.findViewById(R.id.dialog_todo_item_form_TitleEditText)
+        descriptionEditText = view?.findViewById(R.id.dialog_todo_item_form_DescriptionEditText)
         loadSubmitButton(view)
         loadRadioGroup(view)
 
@@ -55,16 +54,16 @@ class TodoItemFormDialog : DialogFragment() {
             descriptionEditText?.setText(todoItem.description)
 
             when(todoItem.status.toString()) {
-                "todo" ->  view?.find<RadioButton>(
+                "todo" ->  view?.findViewById<RadioButton>(
                         R.id.dialog_todo_item_form_TodoRadioButton)?.isChecked  = true
 
-                "doing" -> view?.find<RadioButton>(
+                "doing" -> view?.findViewById<RadioButton>(
                         R.id.dialog_todo_item_form_DoingRadioButton)?.isChecked  = true
 
-                "done" -> view?.find<RadioButton>(
+                "done" -> view?.findViewById<RadioButton>(
                         R.id.dialog_todo_item_form_DoneRadioButton)?.isChecked  = true
 
-                else -> view?.find<RadioButton>(
+                else -> view?.findViewById<RadioButton>(
                         R.id.dialog_todo_item_form_TodoRadioButton)?.isChecked  = true
             }
         }
@@ -72,13 +71,13 @@ class TodoItemFormDialog : DialogFragment() {
 
     private fun loadSubmitButton(view: View?) {
         val buttonText = if (todoItem != null) R.string.save else R.string.create
-        submitButton = view?.find<Button>(R.id.dialog_todo_item_form_SubmitButton)
+        submitButton = view?.findViewById(R.id.dialog_todo_item_form_SubmitButton)
         submitButton?.setText(buttonText)
         submitButton?.setOnClickListener { saveTodoItem() }
     }
 
     private fun loadRadioGroup(view: View?) {
-        statusRadioGroup = view?.find<RadioGroup>(R.id.dialog_todo_item_form_StatusRadioGroup)
+        statusRadioGroup = view?.findViewById(R.id.dialog_todo_item_form_StatusRadioGroup)
         statusRadioGroup?.setOnCheckedChangeListener { _, id ->
             when(id) {
                 R.id.dialog_todo_item_form_TodoRadioButton -> todoItem?.status = Status.todo

@@ -19,10 +19,9 @@ class TodoListFragmentPresenter(
     override
     fun fetchTodoList(id :Long) {
         val observable = todoListModel.fetchTodoList(id)
-        todoListView.compositeDisposable.add(
-                observable.subscribe({ todoList: TodoList? ->
+        todoListView.compositeDisposable.add(observable.subscribe { todoList: TodoList? ->
                     todoListView.onFetchTodoList(todoList)
-                })
+            }
         )
     }
 
@@ -32,19 +31,23 @@ class TodoListFragmentPresenter(
 
         observable.doOnError { error ->
             error.printStackTrace()
-            val message = todoListView.getContext().getString(R.string.try_again)
+        }
+        val message = todoListView.getContext()?.getString(R.string.try_again)
+        if (message != null) {
             todoListView.onShowMessage(message)
         }
 
         todoListView.compositeDisposable.add(
-                observable.subscribe({ wasRemoved: Boolean ->
+                observable.subscribe { wasRemoved: Boolean ->
                     if (wasRemoved) {
                         todoListView.onRemoveTodoList()
                     } else {
-                        val message = todoListView.getContext().getString(R.string.try_again)
-                        todoListView.onShowMessage(message)
+                        val tryAgainMessage = todoListView.getContext()?.getString(R.string.try_again)
+                        if (tryAgainMessage != null) {
+                            todoListView.onShowMessage(tryAgainMessage)
+                        }
                     }
-                })
+                }
         )
     }
 }

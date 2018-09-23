@@ -1,7 +1,7 @@
 package app.purple
 
 import android.support.v4.app.Fragment
-import com.pawegio.kandroid.toast
+import android.widget.Toast
 import io.reactivex.disposables.CompositeDisposable
 
 open class GenericFragment : Fragment() {
@@ -13,6 +13,6 @@ open class GenericFragment : Fragment() {
     }
 
     fun onShowMessage(message: String) {
-        toast(message)
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 }
