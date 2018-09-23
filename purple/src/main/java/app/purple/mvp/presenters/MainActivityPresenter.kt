@@ -8,7 +8,7 @@ import app.purple.mvp.views.fragments.TodoListFragment
 
 class MainActivityPresenter(
         var mainView: MainContract.View,
-        var mainActivityModel: MainActivityModel = MainActivityModel() ) :
+        var mainActivityModel: MainContract.Model = MainActivityModel() ) :
         MainContract.Presenter{
 
     override

@@ -13,12 +13,11 @@ import app.purple.dialogs.TodoItemFormDialog
 import app.purple.models.TodoItem
 import app.purple.models.TodoList
 import app.purple.mvp.contracts.MainContract
+import app.purple.mvp.contracts.TodoListContract
 import app.purple.mvp.presenters.TodoListFragmentPresenter
-import app.purple.mvp.contracts.TodoListPresenter
-import app.purple.mvp.contracts.TodoListView
 
-class TodoListFragment : GenericFragment(), TodoListView {
-    var todoListPresenter: TodoListPresenter? = null
+class TodoListFragment : GenericFragment(), TodoListContract.View {
+    var todoListPresenter: TodoListContract.Presenter? = null
     var todoList: TodoList? = null
     var titleTextView: TextView? = null
 

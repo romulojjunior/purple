@@ -2,14 +2,12 @@ package app.purple.mvp.presenters
 
 import app.purple.R
 import app.purple.models.TodoList
+import app.purple.mvp.contracts.TodoListContract
 import app.purple.mvp.models.TodoListFragmentModel
-import app.purple.mvp.contracts.TodoListModel
-import app.purple.mvp.contracts.TodoListPresenter
-import app.purple.mvp.contracts.TodoListView
 
 class TodoListFragmentPresenter(
-        var todoListView: TodoListView,
-        var todoListModel: TodoListModel = TodoListFragmentModel()) : TodoListPresenter {
+        var todoListView: TodoListContract.View,
+        var todoListModel: TodoListContract.Model = TodoListFragmentModel()) : TodoListContract.Presenter {
 
     override
     fun loadUI(todoList: TodoList) {
